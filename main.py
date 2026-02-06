@@ -8,7 +8,6 @@ from detector import PersonDetector
 from tracker import Tracker
 from privacy import blur_person
 
-
 def main():
     detector = PersonDetector(
         model_path="yolov8n.pt",
@@ -181,7 +180,6 @@ def main():
     cap.release()
     cv2.destroyAllWindows()
     print("Tracking stopped.")
-
 
 if __name__ == "__main__":
     main()

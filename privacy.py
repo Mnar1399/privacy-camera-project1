@@ -1,6 +1,6 @@
+
 # privacy.py
 import cv2
-
 
 def blur_person(frame, x1, y1, x2, y2):
     """
@@ -46,3 +46,9 @@ def blur_person(frame, x1, y1, x2, y2):
     frame[y1:y2, x1:x2] = blurred
     
     return frame
+
+
+
+
+
+

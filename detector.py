@@ -4,7 +4,6 @@ import numpy as np
 from ultralytics import YOLO
 import time
 
-
 class PersonDetector:
     """
     Enhanced person detector with temporal filtering and better validation.
@@ -133,3 +132,4 @@ class PersonDetector:
         area2 = (box2[2] - box2[0]) * (box2[3] - box2[1])
         
         return inter / (area1 + area2 - inter) if (area1 + area2 - inter) > 0 else 0
+
