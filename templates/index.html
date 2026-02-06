@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Ghost Track</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="navbar">
+    <!-- صورة المشروع -->
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Ghost Track Logo">
+    </div>
+  
+    <!-- الروابط -->
+    <nav class="nav-right">
+      <a href="#" onclick="showIdea()">فكرة المشروع</a>
+      <a href="#" onclick="showCamera()">الكاميرا</a>
+      <a href="#team">الفريق</a>
+    </nav>
+  </header>
+
+<section class="hero" id="idea">
+    <div class="hero-overlay">
+      <div class="idea-card">
+        <h1>Ghost Track</h1>
+        <p>
+          نظام ذكي يعتمد على الذكاء الاصطناعي لتتبع الأشخاص
+          في الوقت الحقيقي مع الحفاظ الكامل على الخصوصية،
+          من خلال التمويه الذكي وربط الهوية بدون كشف الملامح،
+          ليكون مناسبًا للأماكن الحساسة مثل الأقسام النسائية.
+        </p>
+  
+        <button class="main-btn" onclick="showCamera()">
+          جرّب الكاميرا 
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="camera-section" id="camera">
+  <!-- مربع الإرشاد قبل التشغيل -->
+  <div id="startHint" class="start-hint">
+    <p>اضغطي على زر Start لبدء تشغيل الكاميرا</p>
+    <button onclick="startStream()">Start</button>
+  </div>
+  
+
+  <!-- الكاميرا مباشرة -->
+  <img id="videoFeed" src="" alt="Live Camera" class="camera-video">
+
+ <!-- الأزرار بعد التشغيل -->
+ <div id="controls" class="controls">
+  <button onclick="stopStream()">Stop</button>
+  <button onclick="togglePrivacy()" id="privacyBtn">Privacy: ON</button>
+</div>
+</section>
+<section class="team" id="team">
+  <h2>فريق العمل</h2>
+  <ul>
+    <li>منار الحر</li>
+    <li>وتين السيف</li>
+    <li>عائشه الجعفري </li>
+    <li>اغادي الربدي </li>
+    <li>ايثار الروضان</li>
+  </ul>
+</section>
+
+<script>
+  function showCamera() {
+    document.getElementById("idea").classList.add("hidden");
+    document.getElementById("camera").classList.remove("hidden");
+  }
+  
+  function showIdea() {
+    document.getElementById("camera").classList.add("hidden");
+    document.getElementById("idea").classList.remove("hidden");
+  }
+  
+
+
+  function startStream() {
+    fetch("/start", { method: "POST" });
+
+    document.getElementById("videoFeed").src = "/video_feed";
+    document.getElementById("videoFeed").style.display = "block";
+
+    document.getElementById("startHint").style.display = "none";
+    document.getElementById("controls").style.display = "flex";
+  }
+
+  function stopStream() {
+    fetch("/stop", { method: "POST" });
+
+    document.getElementById("videoFeed").src = "";
+    document.getElementById("videoFeed").style.display = "none";
+
+    document.getElementById("controls").style.display = "none";
+    document.getElementById("startHint").style.display = "block";
+  }
+
+  function togglePrivacy() {
+    fetch("/toggle_privacy", { method: "POST" })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("privacyBtn").innerText =
+          data.privacy ? "Privacy: ON" : "Privacy: OFF";
+      });
+  }
+</script>
+
+</body>
+</html>
